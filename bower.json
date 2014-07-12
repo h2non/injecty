@@ -1,7 +1,7 @@
 {
   "name": "injecty",
   "version": "0.1.0",
-  "description": "Micro IoC container dependency injection for node and browsers",
+  "description": "Micro dependency injection and inversion of control container for node and browsers",
   "license": "MIT",
   "author": "Tomas Aparicio",
   "main": "./injecty.js",

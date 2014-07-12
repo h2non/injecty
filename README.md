@@ -64,7 +64,6 @@ var human = injecty.inject(HumanFactory)
 ## API
 
 #### injecty.container([parent])
-Returns: `Container`
 
 Creates a new container.
 Optionally it can inherit from another container
@@ -82,8 +81,18 @@ Alias: `require`
 
 Retrieve a registered dependency by its name
 
+```js
+injecty.get('Math') // -> {MathConstructor...}
+```
+
 #### injecty.register(name, value)
 Alias: `set`
+
+Register a dependency in the container
+```js
+injecty.register('Location', window.location)
+injecty.injectable('Location') // -> true
+```
 
 #### injecty.invoke([fn|array])
 
