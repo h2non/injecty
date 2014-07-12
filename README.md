@@ -88,35 +88,113 @@ injecty.get('Math') // -> {MathConstructor...}
 #### injecty.register(name, value)
 Alias: `set`
 
-Register a dependency in the container
+Register a new dependency in the container
+
 ```js
 injecty.register('Location', window.location)
+// check it was registered
 injecty.injectable('Location') // -> true
+```
+
+You can also register functions that require injections
+```js
+injecty.register('Date', Date)
+injecty.register('now', injecty.inject(function (Date) {
+  return new Date().getTime()
+}))
+var time = injecty.invoke(function (now) {
+  return now()
+})
+console.log(time) // -> 1405170246959
+```
+
+##### Different ways to declare injections for consistency in browsers
+
+Using the injection array notation
+```js
+injecty.register('random', ['Math', function (m) {
+  return m.random()
+}])
+```
+
+Setting the `$inject` property in the function object
+```js
+function random(m) {
+  return m.random()
+}
+random.$inject = ['Math']
+injecty.register('random', random)
 ```
 
 #### injecty.invoke([fn|array])
 
-Invoke a function, optinally you can supply the arguments to inject as array notation
+Invoke a function injecting requested dependencies.
+Optinally you can supply the arguments to inject as array notation
+
+```js
+var time = injecty.invoke(function (Date) {
+  return new Date().getTime()
+})
+console.log(time) // -> 1405170246959
+```
+
+Using the array injection notation, useful for minification
+```js
+var time = injecty.invoke(['Date', function (D) {
+  return new D().getTime()
+}])
+console.log(time) // -> 1405170246959
+```
 
 #### injecty.inject([fn|array])
 
-Inject dependencies to a current function
+Inject dependencies and return the partial function
+
+```
+var time = injecty.invoke(['Date', function (D) {
+  return new D().getTime()
+}])
+```
 
 #### injecty.annotate([fn|array])
 
 Returns an array of names which the given function is requesting for injection
 
+```js
+var injectables = injecty.annotate(function (Math, Date) {
+  ...
+})
+console.log(injectables) // -> ['Math', 'Date']
+```
+
+```js
+function fn(m, d) {
+  ...
+}
+fn.$inject = ['Math', 'Date']
+var injectables = injecty.annotate(fn)
+console.log(injectables) // -> ['Math', 'Date']
+```
+
 #### injecty.injectable(name)
 
-Checks if a dependency was registered and is available to be injectyect
+Checks if a dependency was already registered and it's available to be injected
 
 #### injecty.remove(name)
 
 Remove a registered dependency from the container
 
+```js
+injecty.remove('Math').injectable('Math') // -> false
+```
+
 #### injecty.flush(name)
 
 Flush all the container registered dependencies
+
+```js
+injecty.flush().injectable('Math') // -> false
+```
 
 ## Contributing
 
