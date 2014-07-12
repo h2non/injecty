@@ -1,8 +1,8 @@
 # injecty [![Build Status](https://secure.travis-ci.org/h2non/injecty.png?branch=master)][travis] [![NPM version](https://badge.fury.io/js/injecty.png)][npm]
 
-**injecty** is a micro **dependency injection container for JavaScript environments**.
+**injecty** is a micro **dependency injection container for JavaScript**
 
-It was intimately inspired in [AngularJS DI](https://docs.angularjs.org/guide/di) and supports useful features such as automatic dependency discovery based on arguments pattern matching, multiple isolated or inherited containers and more
+It was intimately inspired in [AngularJS DI](https://docs.angularjs.org/guide/di) and supports useful features such as injections discovery arguments using pattern matching and multiple containers with inheritance
 
 injecty is written in [Wisp][wisp], a Clojure-like language which transpiles into plain JavaScript.
 It exploits functional programming common patterns such as lambda lifting, pure functions, higher-order functions, function composition and more
