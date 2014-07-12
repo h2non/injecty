@@ -4,7 +4,7 @@
 It's dependency-free, light and tiny (~200 SLOC).
 It was designed to be embedded in frameworks or libraries
 
-It was intimately inspired in [AngularJS DI](https://docs.angularjs.org/guide/di) and supports useful features such as injections discovery arguments using pattern matching and multiple containers with inheritance
+It's intimately inspired in [AngularJS DI](https://docs.angularjs.org/guide/di) and provides useful features such as autodiscover injections from arguments using pattern matching, creating multiple containers with inheritance support between them, AngularJS-style injections based on array notation and more
 
 injecty is written in [Wisp][wisp], a Clojure-like language which transpiles into plain JavaScript.
 It exploits functional programming common patterns such as lambda lifting, pure functions, higher-order functions, function composition and more
