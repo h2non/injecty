@@ -73,6 +73,7 @@ Optionally it can inherit from another container
 injecty.register('Math', Math)
 // creates new container which inherits from global
 var container = injecty.container(injecty)
+// check it was registered
 container.injectable('Math') // -> true
 ```
 
@@ -92,7 +93,6 @@ Register a new dependency in the container
 
 ```js
 injecty.register('Location', window.location)
-// check it was registered
 injecty.injectable('Location') // -> true
 ```
 
