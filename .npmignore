@@ -1,0 +1,11 @@
+src/
+test/
+*.wisp
+.gitignore
+.travis.yml
+.editorconfig
+.npmignore
+bower.json
+Makefile
+/inj.js
+/inj.min.js

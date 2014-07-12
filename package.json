@@ -1,0 +1,47 @@
+{
+<<<<<<< HEAD
+  "name": "inj",
+  "version": "0.1.0",
+  "description": "Tiny dependency injection library for node and browsers",
+  "homepage": "http://github.com/h2non/inj",
+  "bugs": "https://github.com/h2non/inj/issues",
+=======
+  "name": "promitto",
+  "version": "0.1.2",
+  "description": "Tiny promise library compatible with Promise/A+ and ES6",
+  "homepage": "http://github.com/h2non/promitto",
+  "bugs": "https://github.com/h2non/promitto/issues",
+>>>>>>> ec4ec1d629fd28ece54c8520024e7e35e0ad5336
+  "author": "Tomas Aparicio",
+  "repository": "h2non/inj",
+  "licenses": "MIT",
+  "main": "./lib/inj",
+  "directories": {
+    "lib": "./lib"
+  },
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "keywords": [
+    "dependency",
+    "injection",
+    "ioc",
+    "aop",
+    "dependency inversion",
+    "application composition",
+    "wisp",
+    "clojure"
+  ],
+  "devDependencies": {
+    "browserify": "~4.2.0",
+    "chai": "~1.9.1",
+    "mocha": "~1.20.0",
+    "os-shim": "~0.1.2",
+    "semver": "~2.2.1",
+    "uglify-js": "~2.4.14",
+    "wisp": "~0.10.0"
+  }
+}

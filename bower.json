@@ -1,0 +1,40 @@
+{
+<<<<<<< HEAD
+  "name": "inj",
+  "version": "0.1.0",
+  "description": "Tiny dependency injection library for node and browsers",
+=======
+  "name": "promitto",
+  "version": "0.1.2",
+  "description": "Tiny promise library compatible with Promise/A+ and ES6",
+>>>>>>> ec4ec1d629fd28ece54c8520024e7e35e0ad5336
+  "license": "MIT",
+  "author": "Tomas Aparicio",
+  "main": "./inj.js",
+  "homepage": "https://github.com/h2non/inj",
+  "repository": "h2non/inj",
+  "keywords": [
+    "dependency",
+    "injection",
+    "ioc",
+    "aop",
+    "dependency inversion",
+    "application composition",
+    "wisp",
+    "clojure"
+  ],
+  "ignore": [
+    "**/.*",
+    ".*",
+    "*.md",
+    "src",
+    "lib",
+    "test",
+    "Makefile",
+    ".editorconfig",
+    ".gitignore",
+    ".travis.yml",
+    ".npmignore",
+    "package.json"
+  ]
+}
