@@ -1,11 +1,11 @@
 (ns injecty.lib.types
   (:require
-    [injecty.lib.utils :refer [obj?]]))
+    [injecty.lib.utils :refer [obj? fn?]]))
 
 (defn ^:private get-parent
   [parent]
-  (if (obj? (.-$$pool parent))
-    (.-$$pool parent) parent))
+  (if (fn? (.-$$pool parent))
+    ((.-$$pool parent)) parent))
 
 (defn ^object new-pool
   "Creates a new dependencies pool"

@@ -11,7 +11,8 @@
 (defn ^:private remove
   [pool]
   (fn [name]
-    (set! (aget pool name) nil)))
+    (cond (aget (.-map pool) name)
+      (set! (aget (.-map pool) name) nil))))
 
 (defn ^:private register
   [pool]
@@ -30,15 +31,6 @@
   [pool]
   (fn []
     (set! (.-map pool) {})))
-
-(defn ^:private injector
-  [getter deps]
-  (let [buf []]
-    (.map deps
-      (fn [dep]
-        (let [dep (getter dep)]
-          (if (? dep nil)
-            (throw (Error. (+ "Dependency not registered: " dep))) dep))))))
 
 (defn ^:private get-lambda
   [lambda]
@@ -60,6 +52,15 @@
     (if (arr? args)
       args [])))
 
+(defn ^:private injector
+  [getter deps]
+  (cond (arr? deps)
+    (.map deps
+      (fn [name]
+        (let [dep (getter name)]
+          (if (? dep nil)
+            (throw (Error. (+ "Dependency not registered: " name))) dep))))))
+
 (defn ^:private invoke
   [getter]
   (fn [lambda]
@@ -68,16 +69,16 @@
           injections (injector getter args)]
       (apply lambda injections))))
 
+(defn ^:private inject
+  [invoke]
+  (fn [lambda]
+    (fn []
+      (invoke lambda))))
+
 (defn ^:private injectable
   [getter]
   (fn [name]
     (!? (getter name) nil)))
-
-(defn ^:private inject
-  [invoke]
-  (fn [lambda]
-    (fn [& args]
-      (apply invoke args))))
 
 (defn ^:private annotate
   [getter]
@@ -86,14 +87,21 @@
       (annotate-args (getter lambda))
       (annotate-args lambda))))
 
+(def ^:private chainable-methods
+  [:register :set :flush :remove])
+
 (defn ^:private chain-methods
   [ctx]
   (.for-each (.keys Object ctx)
     (fn [name]
-      (cond (or (? name :register) (? name :set) (? name :flush))
+      (cond (!? (.index-of chainable-methods name) -1)
         (let [method (aget ctx name)]
           (cond (fn? method)
             (set! (aget ctx name) (chain ctx method))))))) ctx)
+
+(defn ^:private pool-accessor
+  [pool]
+  (fn [] (.-map pool)))
 
 (defn ^object container
   "Create a new dependency container"
@@ -111,6 +119,6 @@
         :inject (inject invoke)
         :flush (flush pool)
         :remove (remove pool)
-        :$$pool (.-map pool)
+        :$$pool (pool-accessor pool)
         :annotate (annotate get)
-        :injectable (injectable getter) }) (chain-methods ctx)))
+        :injectable (injectable get) }) (chain-methods ctx)))

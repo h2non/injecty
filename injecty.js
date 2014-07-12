@@ -18,7 +18,7 @@ var getter = function getter(pool) {
 };
 var remove = function remove(pool) {
     return function (name) {
-        return pool[name] = void 0;
+        return pool.map[name] ? pool.map[name] = void 0 : void 0;
     };
 };
 var register = function register(pool) {
@@ -39,19 +39,6 @@ var flush = function flush(pool) {
         return pool.map = {};
     };
 };
-var injector = function injector(getter, deps) {
-    return function () {
-        var bufø1 = [];
-        return deps.map(function (dep) {
-            return function () {
-                var depø2 = getter(dep);
-                return depø2 === void 0 ? (function () {
-                    throw new Error('Dependency not registered: ' + depø2);
-                })() : depø2;
-            }.call(this);
-        });
-    }.call(this);
-};
 var getLambda = function getLambda(lambda) {
     return isArr(lambda) ? lambda.filter(function (val) {
         return isFn(val);
@@ -66,6 +53,16 @@ var annotateArgs = function annotateArgs(lambda) {
         return isArr(argsø1) ? argsø1 : [];
     }.call(this);
 };
+var injector = function injector(getter, deps) {
+    return isArr(deps) ? deps.map(function (name) {
+        return function () {
+            var depø1 = getter(name);
+            return depø1 === void 0 ? (function () {
+                throw new Error('Dependency not registered: ' + name);
+            })() : depø1;
+        }.call(this);
+    }) : void 0;
+};
 var invoke = function invoke(getter) {
     return function (lambda) {
         return function () {
@@ -76,17 +73,16 @@ var invoke = function invoke(getter) {
         }.call(this);
     };
 };
-var injectable = function injectable(getter) {
-    return function (name) {
-        return getter(name) === void 0 ? false : true;
-    };
-};
 var inject = function inject(invoke) {
     return function (lambda) {
         return function () {
-            var args = Array.prototype.slice.call(arguments, 0);
-            return invoke.apply(void 0, args);
+            return invoke(lambda);
         };
+    };
+};
+var injectable = function injectable(getter) {
+    return function (name) {
+        return getter(name) === void 0 ? false : true;
     };
 };
 var annotate = function annotate(getter) {
@@ -94,14 +90,25 @@ var annotate = function annotate(getter) {
         return isStr(lambda) ? annotateArgs(getter(lambda)) : annotateArgs(lambda);
     };
 };
+var chainableMethods = [
+    'register',
+    'set',
+    'flush',
+    'remove'
+];
 var chainMethods = function chainMethods(ctx) {
     Object.keys(ctx).forEach(function (name) {
-        return name === 'register' || name === 'set' || name === 'flush' ? function () {
+        return (chainableMethods.indexOf(name) === -1 ? false : true) ? function () {
             var methodø1 = ctx[name];
             return isFn(methodø1) ? ctx[name] = chain(ctx, methodø1) : void 0;
         }.call(this) : void 0;
     });
     return ctx;
+};
+var poolAccessor = function poolAccessor(pool) {
+    return function () {
+        return pool.map;
+    };
 };
 var container = exports.container = function container(parent) {
     return function () {
@@ -118,9 +125,9 @@ var container = exports.container = function container(parent) {
             'inject': inject(invokeø1),
             'flush': flush(poolø1),
             'remove': remove(poolø1),
-            '$$pool': poolø1.map,
+            '$$pool': poolAccessor(poolø1),
             'annotate': annotate(getø1),
-            'injectable': injectable(getter)
+            'injectable': injectable(getø1)
         };
         return chainMethods(ctx);
     }.call(this);
@@ -149,9 +156,10 @@ module.exports = injectyFactory();
 {
         var injecty_lib_utils = _dereq_('./utils');
     var isObj = injecty_lib_utils.isObj;
+    var isFn = injecty_lib_utils.isFn;
 }
 var getParent = function getParent(parent) {
-    return isObj(parent.$$pool) ? parent.$$pool : parent;
+    return isFn(parent.$$pool) ? parent.$$pool() : parent;
 };
 var newPool = exports.newPool = function newPool(parent) {
     return function () {
