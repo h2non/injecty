@@ -26,7 +26,7 @@ bower install injecty --save
 
 Or loading the script
 ```html
-<script src="https://cdn.rawgit.com/h2non/injecty/master/injecty.js"></script>
+<script src="//cdn.rawgit.com/h2non/injecty/master/injecty.js"></script>
 ```
 
 ### Environments
