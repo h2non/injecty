@@ -118,6 +118,7 @@ var container = exports.container = function container(parent) {
             'inject': inject(invokeø1),
             'flush': flush(poolø1),
             'remove': remove(poolø1),
+            '$$pool': poolø1.map,
             'annotate': annotate(getø1),
             'injectable': injectable(getter)
         };
@@ -149,10 +150,13 @@ module.exports = injectyFactory();
         var injecty_lib_utils = _dereq_('./utils');
     var isObj = injecty_lib_utils.isObj;
 }
+var getParent = function getParent(parent) {
+    return isObj(parent.$$pool) ? parent.$$pool : parent;
+};
 var newPool = exports.newPool = function newPool(parent) {
     return function () {
         var poolø1 = { 'map': {} };
-        isObj(parent) ? poolø1['map'] = Object.create(parent) : void 0;
+        isObj(parent) ? poolø1['map'] = Object.create(getParent(parent)) : void 0;
         return poolø1;
     }.call(this);
 };

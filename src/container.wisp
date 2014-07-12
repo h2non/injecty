@@ -111,5 +111,6 @@
         :inject (inject invoke)
         :flush (flush pool)
         :remove (remove pool)
+        :$$pool (.-map pool)
         :annotate (annotate get)
         :injectable (injectable getter) }) (chain-methods ctx)))

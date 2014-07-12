@@ -63,13 +63,18 @@ var human = injecty.inject(HumanFactory)
 
 ## API
 
-#### injecty.container(parent)
+#### injecty.container([parent])
 Returns: `Container`
 
-Creates a new container
+Creates a new container.
+Optionally it can inherit from another container
 
 ```js
-var diContainer = injecty.container()
+// register a dependency in the global built-in container
+injecty.register('Math', Math)
+// creates new container which inherits from global
+var container = injecty.container(injecty)
+container.injectable('Math') // -> true
 ```
 
 #### injecty.get(name)
