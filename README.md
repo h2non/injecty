@@ -31,7 +31,7 @@ Or loading the script remotely (just for testing or development)
 
 ### Environments
 
-It [works](http://kangax.github.io/compat-table/es5/) properly in any ES5 compliant engine
+It [works](http://kangax.github.io/compat-table/es5/) in any ES5 compliant engine
 
 - Node.js
 - Chrome >= 5
@@ -47,18 +47,27 @@ var injecty = require('injecty')
 ```
 
 ```js
-funciton Type(gender) {
-  return {
-    gender: gender
+injecty.register('Request', XMLHttpRequest)
+injecty.register('Log', console.log.bind(console))
+
+function get(Request) {
+  return function (url, cb) {
+    var xhr = new Request()
+    xhr.open('GET', url)
+    xhr.onload = function () {
+      if (xhr.readyState === 4) {
+        cb(xhr.responseText)
+      }
+    }
+    xhr.send()
+    return xhr
   }
 }
 
-function HumanFactory(Type) {
-  return new Human(Type)
-}
-
-injecty.register('Type', Type)
-var human = injecty.inject(HumanFactory)
+var get = injecty.invoke(get)
+get('/test/sample.json', injecty.invoke(function (Log) {
+  return Log // -> output body response
+}))
 ```
 
 ## API
