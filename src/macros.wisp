@@ -1,4 +1,4 @@
-(ns inj.lib.macros)
+(ns injecty.lib.macros)
 
 (defmacro ?
   [x y]

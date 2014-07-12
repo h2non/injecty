@@ -1,21 +1,13 @@
 {
-<<<<<<< HEAD
-  "name": "inj",
+  "name": "injecty",
   "version": "0.1.0",
-  "description": "Tiny dependency injection library for node and browsers",
-  "homepage": "http://github.com/h2non/inj",
-  "bugs": "https://github.com/h2non/inj/issues",
-=======
-  "name": "promitto",
-  "version": "0.1.2",
-  "description": "Tiny promise library compatible with Promise/A+ and ES6",
-  "homepage": "http://github.com/h2non/promitto",
-  "bugs": "https://github.com/h2non/promitto/issues",
->>>>>>> ec4ec1d629fd28ece54c8520024e7e35e0ad5336
+  "description": "Micro IoC container dependency injection for node and browsers",
+  "homepage": "http://github.com/h2non/injecty",
+  "bugs": "https://github.com/h2non/injecty/issues",
   "author": "Tomas Aparicio",
-  "repository": "h2non/inj",
+  "repository": "h2non/injecty",
   "licenses": "MIT",
-  "main": "./lib/inj",
+  "main": "./lib/injecty",
   "directories": {
     "lib": "./lib"
   },

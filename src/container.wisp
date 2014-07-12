@@ -1,6 +1,6 @@
-(ns inj.lib.container
+(ns injecty.lib.container
   (:require
-    [inj.lib.utils :refer [fn? arr? str? chain fn-name parse-args]]))
+    [injecty.lib.utils :refer [fn? arr? str? chain fn-name parse-args]]))
 
 (defn ^:private getter
   [pool]
@@ -65,6 +65,12 @@
   (fn [name]
     (!? (getter name) nil)))
 
+(defn ^:private bind
+  [inject]
+  (fn [lambda]
+    (fn [& args]
+      (apply inject args))))
+
 (defn ^:private chain-methods
   [ctx]
   (.for-each (.keys Object ctx)
@@ -79,12 +85,15 @@
   [parent]
   (let [pool {:map {}}
         get (getter pool)
-        set (register pool)]
+        set (register pool)
+        inject (inject get)]
     (def ctx
       { :get get
+        :require get
         :set set
         :register set
-        :inject (inject get)
+        :inject inject
+        :bind (bind inject)
         :flush (flush pool)
         :remove (remove pool)
         :injectable (injectable getter) }) (chain-methods ctx)))

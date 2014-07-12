@@ -7,5 +7,5 @@ test/
 .npmignore
 bower.json
 Makefile
-/inj.js
-/inj.min.js
+/injecty.js
+/injecty.min.js

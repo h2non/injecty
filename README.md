@@ -1,10 +1,10 @@
-# inj [![Build Status](https://secure.travis-ci.org/h2non/inj.png?branch=master)][travis] [![NPM version](https://badge.fury.io/js/inj.png)][npm]
+# injecty [![Build Status](https://secure.travis-ci.org/h2non/injecty.png?branch=master)][travis] [![NPM version](https://badge.fury.io/js/injecty.png)][npm]
 
-**inj** is a micro **dependency injection container for JavaScript environments**.
+**injecty** is a micro **dependency injectyection container for JavaScript environments**.
 
 It was intimately inspired in [AngularJS DI](https://docs.angularjs.org/guide/di) and supports useful features such as automatic dependency discovery based on arguments pattern matching, multiple isolated or inherited containers and more
 
-inj is written in [Wisp][wisp], a Clojure-like language which transpiles into plain JavaScript.
+injecty is written in [Wisp][wisp], a Clojure-like language which transpiles into plain JavaScript.
 It exploits functional programming common patterns such as lambda lifting, pure functions, higher-order functions, function composition and more
 
 ## Installation
@@ -12,19 +12,19 @@ It exploits functional programming common patterns such as lambda lifting, pure 
 #### Node.js
 
 ```bash
-npm install inj --save
+npm install injecty --save
 ```
 
 #### Browser
 
 Via Bower package manager
 ```bash
-bower install inj --save
+bower install injecty --save
 ```
 
 Or loading the script remotely (just for testing or development)
 ```html
-<script src="//rawgithub.com/h2non/inj/master/inj.js"></script>
+<script src="//rawgithub.com/h2non/injecty/master/injecty.js"></script>
 ```
 
 ### Environments
@@ -41,52 +41,58 @@ It [works](http://kangax.github.io/compat-table/es5/) properly in any ES5 compli
 ## Basic usage
 
 ```js
-var inj = require('inj')
+var injecty = require('injecty')
 ```
 
 ```js
-function Human(type, gender) {
-  this.type = type
-  this.gender = gender
+funciton Type(gender) {
+  return {
+    gender: gender
+  }
 }
 
-inj.register('Human', Human)
-var HumanFactory = inj.define(['dep1', 'dep2'], Human)
+function HumanFactory(Type) {
+  return new Human(Type)
+}
+
+injecty.register('Human', HumanFactory)
+var human = injecty.inject(Human)
 ```
 
 ## API
 
 Each
 
-#### inj.container(parent)
+#### injecty.container(parent)
 Returns: `Container`
 
 Creates a new container
 
 ```js
-var diContainer = inj.container()
+var diContainer = injecty.container()
 ```
 
-#### inj.get(name)
+#### injecty.get(name)
+Alias: `require`
 
 Retrieve a registered dependency by its name
 
-#### inj.register(name, value)
+#### injecty.register(name, value)
 Alias: `set`
 
-#### inj.inject([fn|array])
+#### injecty.inject([fn|array])
 
-Inject dependencies to a current function
+injectyect dependencies to a current function
 
-#### inj.injectable(name)
+#### injecty.injectable(name)
 
-Checks if a dependency was registered and is available to be inject
+Checks if a dependency was registered and is available to be injectyect
 
-#### inj.remove(name)
+#### injecty.remove(name)
 
 Remove a registered dependency from the container
 
-#### inj.flush(name)
+#### injecty.flush(name)
 
 Flush all the container registered dependencies
 
@@ -107,7 +113,7 @@ Only [node.js](http://nodejs.org) is required for development
 
 Clone/fork this repository
 ```
-$ git clone https://github.com/h2non/inj.git && cd inj
+$ git clone https://github.com/h2non/injecty.git && cd injecty
 ```
 
 Install package dependencies
@@ -140,5 +146,5 @@ $ make release
 [MIT](http://opensource.org/licenses/MIT) - Tomas Aparicio
 
 [wisp]: https://github.com/Gozala/wisp
-[travis]: http://travis-ci.org/h2non/inj
-[npm]: http://npmjs.org/package/inj
+[travis]: http://travis-ci.org/h2non/injecty
+[npm]: http://npmjs.org/package/injecty

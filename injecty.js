@@ -1,13 +1,13 @@
-/*! inj.js - v0.1 - MIT License - https://github.com/h2non/inj */
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.inj=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+/*! injecty.js - v0.1 - MIT License - https://github.com/h2non/injecty */
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.injecty=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 {
-        var inj_lib_utils = _dereq_('./utils');
-    var isFn = inj_lib_utils.isFn;
-    var isArr = inj_lib_utils.isArr;
-    var isStr = inj_lib_utils.isStr;
-    var chain = inj_lib_utils.chain;
-    var fnName = inj_lib_utils.fnName;
-    var parseArgs = inj_lib_utils.parseArgs;
+        var injecty_lib_utils = _dereq_('./utils');
+    var isFn = injecty_lib_utils.isFn;
+    var isArr = injecty_lib_utils.isArr;
+    var isStr = injecty_lib_utils.isStr;
+    var chain = injecty_lib_utils.chain;
+    var fnName = injecty_lib_utils.fnName;
+    var parseArgs = injecty_lib_utils.parseArgs;
 }
 var getter = function getter(pool) {
     return function (name) {
@@ -75,6 +75,14 @@ var injectable = function injectable(getter) {
         return getter(name) === void 0 ? false : true;
     };
 };
+var bind = function bind(inject) {
+    return function (lambda) {
+        return function () {
+            var args = Array.prototype.slice.call(arguments, 0);
+            return inject.apply(void 0, args);
+        };
+    };
+};
 var chainMethods = function chainMethods(ctx) {
     Object.keys(ctx).forEach(function (name) {
         return name === 'register' || name === 'set' || name === 'flush' ? function () {
@@ -89,11 +97,14 @@ var container = exports.container = function container(parent) {
         var poolø1 = { 'map': {} };
         var getø1 = getter(poolø1);
         var setø1 = register(poolø1);
+        var injectø1 = inject(getø1);
         var ctx = {
             'get': getø1,
+            'require': getø1,
             'set': setø1,
             'register': setø1,
-            'inject': inject(getø1),
+            'inject': injectø1,
+            'bind': bind(injectø1),
             'flush': flush(poolø1),
             'remove': remove(poolø1),
             'injectable': injectable(getter)
@@ -103,24 +114,24 @@ var container = exports.container = function container(parent) {
 };
 },{"./utils":3}],2:[function(_dereq_,module,exports){
 {
-        var inj_lib_utils = _dereq_('./utils');
-    var isFn = inj_lib_utils.isFn;
-    var inj_lib_container = _dereq_('./container');
-    var container = inj_lib_container.container;
+        var injecty_lib_utils = _dereq_('./utils');
+    var isFn = injecty_lib_utils.isFn;
+    var injecty_lib_container = _dereq_('./container');
+    var container = injecty_lib_container.container;
 }
-var inj = function inj() {
+var injecty = function injecty() {
     var args = Array.prototype.slice.call(arguments, 0);
     return container.apply(void 0, args);
 };
-var injFactory = function injFactory() {
+var injectyFactory = function injectyFactory() {
     var args = Array.prototype.slice.call(arguments, 0);
     return function () {
-        var injø1 = inj.apply(void 0, args);
-        injø1['container'] = injFactory;
-        return injø1;
+        var injectyø1 = injecty.apply(void 0, args);
+        injectyø1['container'] = injectyFactory;
+        return injectyø1;
     }.call(this);
 };
-module.exports = injFactory();
+module.exports = injectyFactory();
 },{"./container":1,"./utils":3}],3:[function(_dereq_,module,exports){
 var toString = Object.prototype.toString;
 var argsRegex = new RegExp('^function(\\s*)(\\w*)[^(]*\\(([^)]*)\\)', 'm');

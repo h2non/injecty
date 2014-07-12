@@ -3,7 +3,7 @@ WISP = ./node_modules/wisp/bin/wisp.js
 WISP_MODULE = ./node_modules/wisp/
 MOCHA = ./node_modules/.bin/mocha
 UGLIFYJS = ./node_modules/.bin/uglifyjs
-BANNER = "/*! inj.js - v0.1 - MIT License - https://github.com/h2non/inj */"
+BANNER = "/*! injecty.js - v0.1 - MIT License - https://github.com/h2non/injecty */"
 
 define release
 	VERSION=`node -pe "require('./package.json').version"` && \
@@ -26,7 +26,7 @@ define replace
 	node -e "\
 		var fs = require('fs'); \
 		var os = require('os-shim'); \
-		var str = fs.readFileSync('./inj.js').toString(); \
+		var str = fs.readFileSync('./injecty.js').toString(); \
 		str = str.split(os.EOL).map(function (line) { \
 		  return line.replace(/^void 0;/, '') \
 		}).filter(function (line) { \
@@ -35,7 +35,7 @@ define replace
 		.join(os. EOL) \
 		.replace(/(var _ns_ = \{\n((.*)\n(.*)\n\s+\}\;(\n)?))+/g, '') \
 		.replace(/(\{(\s+)?\n(\s+)?\}\n)/g, ''); \
-		fs.writeFileSync('./inj.js', str)"
+		fs.writeFileSync('./injecty.js', str)"
 endef
 
 default: all
@@ -50,22 +50,22 @@ compile: mkdir clean
 	cat src/macros.wisp src/utils.wisp | $(WISP) --no-map > ./lib/utils.js
 	cat src/macros.wisp src/container.wisp | $(WISP) --no-map > ./lib/container.js
 	cat src/macros.wisp src/types.wisp | $(WISP) --no-map > ./lib/types.js
-	cat src/macros.wisp src/inj.wisp | $(WISP) --no-map > ./lib/inj.js
+	cat src/macros.wisp src/injecty.wisp | $(WISP) --no-map > ./lib/injecty.js
 
 banner:
-	@echo $(BANNER) > inj.js
+	@echo $(BANNER) > injecty.js
 
 browserify:
 	$(BROWSERIFY) \
 		--exports require \
-		--standalone inj \
-		--entry ./lib/inj.js >> ./inj.js
+		--standalone injecty \
+		--entry ./lib/injecty.js >> ./injecty.js
 
 replace:
 	@$(call replace)
 
 uglify:
-	$(UGLIFYJS) inj.js --mangle --preamble $(BANNER) > inj.min.js
+	$(UGLIFYJS) injecty.js --mangle --preamble $(BANNER) > injecty.min.js
 
 clean:
 	rm -rf lib/*

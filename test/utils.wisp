@@ -1,7 +1,7 @@
-(ns inj.test.helpers
+(ns injecty.test.helpers
   (:require
     [chai :refer [expect]]
-    [inj.lib.utils :refer [fn? arr? parse-args]]))
+    [injecty.lib.utils :refer [fn? arr? parse-args]]))
 
 (describe :isFn
   (fn []

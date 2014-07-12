@@ -1,6 +1,6 @@
-(ns inj.lib.types
+(ns injecty.lib.types
   (:require
-    [inj.lib.utils :refer [obj?]]))
+    [injecty.lib.utils :refer [obj?]]))
 
 (defn ^array new-container
   [parent]
