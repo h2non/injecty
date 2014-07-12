@@ -1,7 +1,7 @@
 (ns injecty.test.helpers
   (:require
     [chai :refer [expect]]
-    [injecty.lib.utils :refer [fn? arr? parse-args]]))
+    [injecty.lib.utils :refer [fn? arr? str? chain fn-name parse-args]]))
 
 (describe :isFn
   (fn []
@@ -32,6 +32,42 @@
         (.-to.be.false (expect (arr? Date)))
         (.-to.be.false (expect (arr? 1)))
         (.-to.be.false (expect (arr? null)))))))
+
+(describe :isStr
+  (fn []
+    (it "should be a string"
+      (fn []
+        (.-to.be.true (expect (str? :a)))
+        (.-to.be.true (expect (str? (String.))))))
+    (it "should not be a string"
+      (fn []
+        (.-to.be.false (expect (str? {})))
+        (.-to.be.false (expect (str? (fn []))))
+        (.-to.be.false (expect (str? nil)))
+        (.-to.be.false (expect (str? 1)))
+        (.-to.be.false (expect (str? Date)))
+        (.-to.be.false (expect (str? null)))))))
+
+(describe :chain
+  (fn []
+    (it "should return the chained object when invoke"
+      (fn []
+        (let [ctx {:a true}
+              lambda (fn [] 1)]
+          (.to.be.equal (expect ((chain ctx lambda))) ctx))))
+    (it "should return the chained object when invoke"
+      (fn []
+        (.to.be.equal (expect ((chain Date (fn [])))) Date)))))
+
+(describe :fnName
+  (fn []
+    (it "should extract the function name"
+      (fn []
+        (.to.be.equal (expect (fn-name (fn Test[name]))) :Test)))
+    (it "should not extract the function name"
+      (fn []
+        (.to.be.equal (expect (fn-name (fn []))) nil)
+        (.to.be.equal (expect (fn-name [])) nil)))))
 
 (describe :parseArgs
   (fn []

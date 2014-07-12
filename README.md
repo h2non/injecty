@@ -55,13 +55,11 @@ function HumanFactory(Type) {
   return new Human(Type)
 }
 
-injecty.register('Human', HumanFactory)
-var human = injecty.inject(Human)
+injecty.register('Type', Type)
+var human = injecty.inject(HumanFactory)
 ```
 
 ## API
-
-Each
 
 #### injecty.container(parent)
 Returns: `Container`
@@ -80,9 +78,17 @@ Retrieve a registered dependency by its name
 #### injecty.register(name, value)
 Alias: `set`
 
+#### injecty.invoke([fn|array])
+
+Invoke a function, optinally you can supply the arguments to inject as array notation
+
 #### injecty.inject([fn|array])
 
-injectyect dependencies to a current function
+Inject dependencies to a current function
+
+#### injecty.annotate([fn|array])
+
+Returns an array of names which the given function is requesting for injection
 
 #### injecty.injectable(name)
 

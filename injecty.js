@@ -1,7 +1,9 @@
 /*! injecty.js - v0.1 - MIT License - https://github.com/h2non/injecty */
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.injecty=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 {
-        var injecty_lib_utils = _dereq_('./utils');
+        var injecty_lib_types = _dereq_('./types');
+    var newPool = injecty_lib_types.newPool;
+    var injecty_lib_utils = _dereq_('./utils');
     var isFn = injecty_lib_utils.isFn;
     var isArr = injecty_lib_utils.isArr;
     var isStr = injecty_lib_utils.isStr;
@@ -56,11 +58,15 @@ var getLambda = function getLambda(lambda) {
     })[0] : lambda;
 };
 var getArgs = function getArgs(lambda) {
-    return isFn(lambda) ? parseArgs(lambda) : isArr(lambda) ? arr.filter(function (dep) {
-        return typeof(dep) === 'string';
-    }) : void 0;
+    return isFn(lambda) ? isArr(lambda.$inject) ? lambda.$inject : parseArgs(lambda) : isArr(lambda) ? lambda.filter(isStr) : void 0;
 };
-var inject = function inject(getter) {
+var annotateArgs = function annotateArgs(lambda) {
+    return function () {
+        var argsø1 = getArgs(lambda);
+        return isArr(argsø1) ? argsø1 : [];
+    }.call(this);
+};
+var invoke = function invoke(getter) {
     return function (lambda) {
         return function () {
             var argsø1 = getArgs(lambda);
@@ -75,12 +81,17 @@ var injectable = function injectable(getter) {
         return getter(name) === void 0 ? false : true;
     };
 };
-var bind = function bind(inject) {
+var inject = function inject(invoke) {
     return function (lambda) {
         return function () {
             var args = Array.prototype.slice.call(arguments, 0);
-            return inject.apply(void 0, args);
+            return invoke.apply(void 0, args);
         };
+    };
+};
+var annotate = function annotate(getter) {
+    return function (lambda) {
+        return isStr(lambda) ? annotateArgs(getter(lambda)) : annotateArgs(lambda);
     };
 };
 var chainMethods = function chainMethods(ctx) {
@@ -94,25 +105,26 @@ var chainMethods = function chainMethods(ctx) {
 };
 var container = exports.container = function container(parent) {
     return function () {
-        var poolø1 = { 'map': {} };
+        var poolø1 = newPool(parent);
         var getø1 = getter(poolø1);
         var setø1 = register(poolø1);
-        var injectø1 = inject(getø1);
+        var invokeø1 = invoke(getø1);
         var ctx = {
             'get': getø1,
             'require': getø1,
             'set': setø1,
             'register': setø1,
-            'inject': injectø1,
-            'bind': bind(injectø1),
+            'invoke': invokeø1,
+            'inject': inject(invokeø1),
             'flush': flush(poolø1),
             'remove': remove(poolø1),
+            'annotate': annotate(getø1),
             'injectable': injectable(getter)
         };
         return chainMethods(ctx);
     }.call(this);
 };
-},{"./utils":3}],2:[function(_dereq_,module,exports){
+},{"./types":3,"./utils":4}],2:[function(_dereq_,module,exports){
 {
         var injecty_lib_utils = _dereq_('./utils');
     var isFn = injecty_lib_utils.isFn;
@@ -132,7 +144,19 @@ var injectyFactory = function injectyFactory() {
     }.call(this);
 };
 module.exports = injectyFactory();
-},{"./container":1,"./utils":3}],3:[function(_dereq_,module,exports){
+},{"./container":1,"./utils":4}],3:[function(_dereq_,module,exports){
+{
+        var injecty_lib_utils = _dereq_('./utils');
+    var isObj = injecty_lib_utils.isObj;
+}
+var newPool = exports.newPool = function newPool(parent) {
+    return function () {
+        var poolø1 = { 'map': {} };
+        isObj(parent) ? poolø1['map'] = Object.create(parent) : void 0;
+        return poolø1;
+    }.call(this);
+};
+},{"./utils":4}],4:[function(_dereq_,module,exports){
 var toString = Object.prototype.toString;
 var argsRegex = new RegExp('^function(\\s*)(\\w*)[^(]*\\(([^)]*)\\)', 'm');
 var fnNameRegex = new RegExp('^function\\s*(\\w+)\\s*\\(', 'i');
@@ -140,7 +164,7 @@ var isFn = exports.isFn = function isFn(o) {
     return typeof(o) === 'function';
 };
 var isStr = exports.isStr = function isStr(o) {
-    return typeof(o) === 'string';
+    return toString.call(o) === '[object String]';
 };
 var isObj = exports.isObj = function isObj(o) {
     return toString.call(o) === '[object Object]';

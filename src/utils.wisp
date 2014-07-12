@@ -17,7 +17,7 @@
 (defn ^boolean str?
   "Check if the given value is a string"
   [o]
-  (? (typeof o) :string))
+  (? (.call ->string o) "[object String]"))
 
 (defn ^boolean obj?
   "Check if the given value is a plain object"
@@ -35,11 +35,13 @@
   (.call (.-slice (.-prototype Array)) o))
 
 (defn ^fn chain
+  "Make function chainable"
   [obj fn]
   (fn []
     (apply fn arguments) obj))
 
 (defn ^:string fn-name
+  "Extract function name"
   [lambda]
   (cond (fn? lambda)
     (if (.-name lambda)
@@ -49,6 +51,7 @@
           (aget name 1))))))
 
 (defn ^array parse-args
+  "Parse and extract function arguments"
   [lambda]
   (cond (fn? lambda)
     (let [matches (.exec args-regex (.to-string lambda))]

@@ -2,6 +2,9 @@
   (:require
     [injecty.lib.utils :refer [obj?]]))
 
-(defn ^array new-container
+(defn ^object new-pool
+  "Creates a new dependencies pool"
   [parent]
-  (.create Object parent))
+  (let [pool {:map {}}]
+    (cond (obj? parent)
+      (set! (aget pool :map) (.create Object parent))) pool))
