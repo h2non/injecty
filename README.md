@@ -189,6 +189,16 @@ console.log(injectables) // -> ['Math', 'Date']
 
 Checks if a dependency was already registered and it's available to be injected
 
+#### injecty.satisfies(name)
+
+Checks if can safisty all the requested dependecies to inject
+
+```js
+inject.register('Math', Math)
+inject.register('Date', Date)
+inject.safisfies(function (Math, Date) {}) // -> true
+```
+
 #### injecty.remove(name)
 
 Remove a registered dependency from the container

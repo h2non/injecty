@@ -105,6 +105,16 @@ var chainMethods = function chainMethods(ctx) {
     });
     return ctx;
 };
+var satisfies = function satisfies(getter) {
+    return function (lamdba) {
+        return function () {
+            var argsø1 = annotateArgs(lamdba);
+            return argsø1.filter(function (name) {
+                return getter(name) === void 0 ? false : true;
+            }).length === argsø1.length;
+        }.call(this);
+    };
+};
 var poolAccessor = function poolAccessor(pool) {
     return function () {
         return pool.map;
@@ -127,6 +137,7 @@ var container = exports.container = function container(parent) {
             'remove': remove(poolø1),
             '$$pool': poolAccessor(poolø1),
             'annotate': annotate(getø1),
+            'satisfies': satisfies(getø1),
             'injectable': injectable(getø1)
         };
         return chainMethods(ctx);

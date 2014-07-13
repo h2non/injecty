@@ -1,6 +1,6 @@
 {
   "name": "injecty",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Micro dependency injection and inversion of control container for node and browsers",
   "homepage": "http://github.com/h2non/injecty",
   "bugs": "https://github.com/h2non/injecty/issues",

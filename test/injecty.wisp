@@ -71,6 +71,20 @@
               (.-to.be.true (expect (.injectable di :Math)))
               (.to.be.an (expect (.remove di :Math)) :object)
               (.-to.be.false (expect (.injectable di :Math))))))))
+    (describe :satisfies
+      (fn []
+        (it "should satisfy all requested dependencies"
+          (fn []
+            (let [di (.container injecty)
+                  lambda (fn [Math Date])]
+              (.register di :Math Math)
+              (.register di :Date Date)
+              (.-to.be.true (expect (.satisfies di lambda))))))
+        (it "should not satisfy the requested dependencies"
+          (fn []
+            (let [di (.container injecty)
+                  lambda (fn [process Location])]
+              (.-to.be.false (expect (.satisfies di lambda))))))))
     (describe :annotate
       (fn []
         (describe :arguments

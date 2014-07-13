@@ -99,6 +99,13 @@
           (cond (fn? method)
             (set! (aget ctx name) (chain ctx method))))))) ctx)
 
+(defn ^:private satisfies
+  [getter]
+  (fn [lamdba]
+    (let [args (annotate-args lamdba)]
+      (? (.-length
+        (.filter args (fn [name] (!? (getter name) nil)))) (.-length args)))))
+
 (defn ^:private pool-accessor
   [pool]
   (fn [] (.-map pool)))
@@ -121,4 +128,5 @@
         :remove (remove pool)
         :$$pool (pool-accessor pool)
         :annotate (annotate get)
+        :satisfies (satisfies get)
         :injectable (injectable get) }) (chain-methods ctx)))
