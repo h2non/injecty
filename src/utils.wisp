@@ -29,11 +29,6 @@
   [o]
   (? (.call ->string o) "[object Array]"))
 
-(defn ^array ->arr
-  "Convert arguments object into array"
-  [o]
-  (.call (.-slice (.-prototype Array)) o))
-
 (defn ^fn chain
   "Make function chainable"
   [obj fn]
