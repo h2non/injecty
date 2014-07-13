@@ -184,9 +184,6 @@ var isObj = exports.isObj = function isObj(o) {
 var isArr = exports.isArr = function isArr(o) {
     return toString.call(o) === '[object Array]';
 };
-var toArr = exports.toArr = function toArr(o) {
-    return Array.prototype.slice.call(o);
-};
 var chain = exports.chain = function chain(obj, fn) {
     return function () {
         fn.apply(void 0, arguments);
