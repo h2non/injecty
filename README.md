@@ -189,7 +189,7 @@ console.log(injectables) // -> ['Math', 'Date']
 
 Checks if a dependency was already registered and it's available to be injected
 
-#### injecty.satisfies(name)
+#### injecty.satisfies(fn)
 
 Checks if can safisty all the requested dependecies to inject
 
