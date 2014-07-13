@@ -1,7 +1,7 @@
 # injecty [![Build Status](https://secure.travis-ci.org/h2non/injecty.png?branch=master)][travis] [![NPM version](https://badge.fury.io/js/injecty.png)][npm]
 
-**inject** is a micro **dependency injection and inversion of control container for JavaScript**.
-It's dependency-free, light and tiny (~200 SLOC).
+**injecty** is a micro library for **dependency injection and inversion of control container in JavaScript**.
+It's dependency-free, light and small (~200 SLOC).
 It was designed to be embedded in frameworks or libraries
 
 It's intimately inspired in [AngularJS DI](https://docs.angularjs.org/guide/di) and provides useful features such as autodiscover injections from arguments using pattern matching, creating multiple containers with inheritance support between them, AngularJS-style injections based on array notation and more
