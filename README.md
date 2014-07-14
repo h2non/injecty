@@ -135,7 +135,7 @@ random.$inject = ['Math']
 injecty.register('random', random)
 ```
 
-#### injecty.invoke([fn|array])
+#### injecty.invoke(fn/array)
 
 Invoke a function injecting requested dependencies.
 Optinally you can supply the arguments to inject as array notation
@@ -155,7 +155,7 @@ var time = injecty.invoke(['Date', function (D) {
 console.log(time) // -> 1405170246959
 ```
 
-#### injecty.inject([fn|array])
+#### injecty.inject(fn/array)
 
 Inject dependencies and return the partial function
 
@@ -165,7 +165,7 @@ var time = injecty.inject(['Date', function (D) {
 }])
 ```
 
-#### injecty.annotate([fn|array])
+#### injecty.annotate(fn/array)
 
 Returns an array of names which the given function is requesting for injection
 
