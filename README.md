@@ -160,7 +160,7 @@ console.log(time) // -> 1405170246959
 Inject dependencies and return the partial function
 
 ```
-var time = injecty.invoke(['Date', function (D) {
+var time = injecty.inject(['Date', function (D) {
   return new D().getTime()
 }])
 ```
