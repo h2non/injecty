@@ -186,14 +186,17 @@ var fnNameRegex = new RegExp('^function\\s*(\\w+)\\s*\\(', 'i');
 var isFn = exports.isFn = function isFn(o) {
     return typeof(o) === 'function';
 };
+var notEmpty = function notEmpty(o) {
+    return (o === void 0 ? false : true) && (o === null ? false : true);
+};
 var isStr = exports.isStr = function isStr(o) {
-    return toString.call(o) === '[object String]';
+    return notEmpty(o) && toString.call(o) === '[object String]';
 };
 var isObj = exports.isObj = function isObj(o) {
-    return toString.call(o) === '[object Object]';
+    return notEmpty(o) && toString.call(o) === '[object Object]';
 };
 var isArr = exports.isArr = function isArr(o) {
-    return toString.call(o) === '[object Array]';
+    return notEmpty(o) && toString.call(o) === '[object Array]';
 };
 var chain = exports.chain = function chain(obj, fn) {
     return function () {
