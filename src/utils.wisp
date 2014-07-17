@@ -14,20 +14,24 @@
   [o]
   (? (typeof o) :function))
 
+(defn ^:private not-empty
+  [o]
+  (and (!? o nil) (!? o null)))
+
 (defn ^boolean str?
   "Check if the given value is a string"
   [o]
-  (? (.call ->string o) "[object String]"))
+  (and (not-empty o) (? (.call ->string o) "[object String]")))
 
 (defn ^boolean obj?
   "Check if the given value is a plain object"
   [o]
-  (? (.call ->string o) "[object Object]"))
+  (and (not-empty o) (? (.call ->string o) "[object Object]")))
 
 (defn ^boolean arr?
   "Check if the given value is an array"
   [o]
-  (? (.call ->string o) "[object Array]"))
+  (and (not-empty o) (? (.call ->string o) "[object Array]")))
 
 (defn ^fn chain
   "Make function chainable"
