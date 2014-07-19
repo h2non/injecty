@@ -11,7 +11,7 @@
 (defn ^:private remove
   [pool]
   (fn [name]
-    (cond (aget (.-map pool) name)
+    (cond (!? (aget (.-map pool) name) nil)
       (set! (aget (.-map pool) name) nil))))
 
 (defn ^:private register

@@ -18,7 +18,7 @@ var getter = function getter(pool) {
 };
 var remove = function remove(pool) {
     return function (name) {
-        return pool.map[name] ? pool.map[name] = void 0 : void 0;
+        return (pool.map[name] === void 0 ? false : true) ? pool.map[name] = void 0 : void 0;
     };
 };
 var register = function register(pool) {
