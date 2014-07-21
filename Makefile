@@ -25,7 +25,7 @@ endef
 define replace
 	node -e "\
 		var fs = require('fs'); \
-		var os = require('os-shim'); \
+		var os = require('os'); \
 		var str = fs.readFileSync('./injecty.js').toString(); \
 		str = str.split(os.EOL).map(function (line) { \
 		  return line.replace(/^void 0;/, '') \
