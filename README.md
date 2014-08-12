@@ -14,14 +14,19 @@ It exploits functional programming common patterns such as lambda lifting, pure 
 #### Node.js
 
 ```bash
-npm install injecty --save
+npm install injecty
 ```
 
 #### Browser
 
-Via Bower package manager
+Via [Bower](http://bower.io)
 ```bash
-bower install injecty --save
+bower install injecty
+```
+
+Via [Component](http://component.io)
+```bash
+component install injecty
 ```
 
 Or loading the script remotely
@@ -159,7 +164,7 @@ console.log(time) // -> 1405170246959
 
 Inject dependencies and return the partial function
 
-```
+```js
 var time = injecty.inject(['Date', function (D) {
   return new D().getTime()
 }])
@@ -209,7 +214,7 @@ injecty.remove('Math').injectable('Math') // -> false
 
 #### injecty.flush(name)
 
-Flush all the container registered dependencies
+Flush all the registered dependencies in the container
 
 ```js
 injecty.flush().injectable('Math') // -> false
@@ -230,12 +235,12 @@ You should follow the Wisp language coding conventions
 
 Only [node.js](http://nodejs.org) is required for development
 
-Clone/fork this repository
+Clone this repository
 ```
 $ git clone https://github.com/h2non/injecty.git && cd injecty
 ```
 
-Install package dependencies
+Install dependencies
 ```
 $ npm install
 ```
@@ -253,11 +258,6 @@ $ make test
 Browser sources bundle generation
 ```
 $ make browser
-```
-
-Release a new version
-```
-$ make release
 ```
 
 ## License

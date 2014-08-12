@@ -21,6 +21,7 @@
     "dependency",
     "injection",
     "ioc",
+    "di",
     "aop",
     "dependency inversion",
     "application composition",

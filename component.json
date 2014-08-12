@@ -5,31 +5,21 @@
   "license": "MIT",
   "author": "Tomas Aparicio",
   "main": "./injecty.js",
-  "homepage": "https://github.com/h2non/injecty",
   "repository": "h2non/injecty",
+  "scripts": [
+    "injecty.js",
+    "injecty.min.js"
+  ],
+  "license": "MIT",
   "keywords": [
     "dependency",
     "injection",
-    "ioc",
     "di",
+    "ioc",
     "aop",
     "dependency inversion",
     "application composition",
     "wisp",
     "clojure"
-  ],
-  "ignore": [
-    "**/.*",
-    ".*",
-    "*.md",
-    "src",
-    "lib",
-    "test",
-    "Makefile",
-    ".editorconfig",
-    ".gitignore",
-    ".travis.yml",
-    ".npmignore",
-    "package.json"
   ]
 }
