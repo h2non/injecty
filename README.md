@@ -26,7 +26,7 @@ bower install injecty
 
 Via [Component](http://component.io)
 ```bash
-component install injecty
+component install h2non/injecty
 ```
 
 Or loading the script remotely
