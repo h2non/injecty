@@ -65,7 +65,7 @@ replace:
 	@$(call replace)
 
 uglify:
-	$(UGLIFYJS) injecty.js --mangle --preamble $(BANNER) > injecty.min.js
+	$(UGLIFYJS) injecty.js --mangle --preamble $(BANNER) --source-map injecty.min.js.map > injecty.min.js
 
 clean:
 	rm -rf lib/*

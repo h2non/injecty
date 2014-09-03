@@ -138,6 +138,7 @@ var container = exports.container = function container(parent) {
             '$$pool': poolAccessor(poolø1),
             'annotate': annotate(getø1),
             'satisfies': satisfies(getø1),
+            'dependencies': Object.keys(poolø1),
             'injectable': injectable(getø1)
         };
         return chainMethods(ctx);

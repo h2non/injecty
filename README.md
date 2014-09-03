@@ -31,7 +31,7 @@ component install h2non/injecty
 
 Or loading the script remotely
 ```html
-<script src="//cdn.rawgit.com/h2non/injecty/0.1.3/injecty.js"></script>
+<script src="//cdn.rawgit.com/h2non/injecty/0.1.4/injecty.js"></script>
 ```
 
 ### Environments

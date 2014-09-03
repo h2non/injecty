@@ -1,6 +1,6 @@
 {
   "name": "injecty",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Micro library for dependency injection and inversion of control containers in node and browsers",
   "license": "MIT",
   "author": "Tomas Aparicio",
