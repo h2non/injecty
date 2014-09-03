@@ -212,13 +212,17 @@ Remove a registered dependency from the container
 injecty.remove('Math').injectable('Math') // -> false
 ```
 
-#### injecty.flush(name)
+#### injecty.flush()
 
-Flush all the registered dependencies in the container
+Flush all registered dependencies in the container
 
 ```js
 injecty.flush().injectable('Math') // -> false
 ```
+
+#### injecty.dependencies()
+
+Get an `array` of values with the registered dependency names in the container
 
 ## Contributing
 

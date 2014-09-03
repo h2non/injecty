@@ -129,4 +129,5 @@
         :$$pool (pool-accessor pool)
         :annotate (annotate get)
         :satisfies (satisfies get)
+        :dependencies (.keys Object pool)
         :injectable (injectable get) }) (chain-methods ctx)))
